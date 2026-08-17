@@ -10,12 +10,18 @@ export type ServiceItem = {
 export type PriceRow = {
   id: string;
   name: string;
-  /** Cena pre osobné auto (CAR) v € — ak nie je, ide o „od“ cenu */
+  /** Cena pre osobné auto (CAR) / primárny stĺpec v € */
   car?: number;
-  /** Cena pre SUV v € */
+  /** Cena pre SUV / sekundárny stĺpec v € */
   suv?: number;
-  /** Jedna cena „od … €“ (bez rozdelenia CAR/SUV) */
+  /** Jedna cena „od … €“ (bez rozdelenia) */
   from?: number;
+  /** „od … €“ v sekundárnom stĺpci (napr. Alu) */
+  fromSecondary?: number;
+  /** Pevná jedna cena (bez „od“) */
+  price?: number;
+  /** Voľný text ceny (napr. „+10 € / 4 ks“) */
+  priceLabel?: string;
   duration?: string;
   includes?: ReadonlyArray<string>;
   note?: string;
@@ -24,6 +30,15 @@ export type PriceRow = {
 export type PriceGroup = {
   id: string;
   title: string;
+  /** Nadpis prvého stĺpca — default „Služba“ */
+  rowHeader?: string;
+  /** Vlastné nadpisy dvoch cenových stĺpcov — default CAR / SUV */
+  columns?: {
+    primary: string;
+    secondary: string;
+  };
+  /** Vynúti jeden cenový stĺpec s týmto nadpisom */
+  singleColumnLabel?: string;
   items: ReadonlyArray<PriceRow>;
 };
 
@@ -64,7 +79,6 @@ export const detailing = {
   accent: "detailing" as const,
   nav: [
     { label: "O nás", href: "/detailing#o-nas" },
-    { label: "Služby", href: "/detailing#sluzby" },
     { label: "Cenník", href: "/detailing#cennik" },
     { label: "Recenzie", href: "/detailing#recenzie" },
     { label: "Galéria", href: "/detailing#galeria" },
@@ -83,7 +97,7 @@ export const detailing = {
     supporting:
       "Profesionálna starostlivosť o interiér a exteriér vozidla s dôrazom na každý detail.",
     primaryCta: { label: "Objednať detailing", href: "/detailing#kontakt" },
-    secondaryCta: { label: "Pozrieť služby", href: "/detailing#sluzby" },
+    secondaryCta: { label: "Pozrieť služby", href: "/detailing#cennik" },
     image: {
       src: "/images/detailing/hero-bg.jpg",
       alt: "Profesionálny detailing — leštenie laku elektrickou leštičkou",

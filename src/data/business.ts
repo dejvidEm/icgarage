@@ -1,6 +1,6 @@
 export const business = {
   name: "IC Garage",
-  legalName: "IC Garage",
+  legalName: "IC Garaz s. r. o.",
   city: "Bratislava",
   /** TODO: Potvrďte finálnu produkčnú URL */
   siteUrl: "https://www.example.com",
@@ -14,12 +14,24 @@ export const business = {
    * Doplňte oficiálny e-mail keď bude k dispozícii.
    */
   email: null as { display: string; href: string } | null,
+  /** Prevádzka (Google Maps / kontakt) */
   address: {
     street: "Žabotova 3214/16",
     city: "Bratislava",
     postalCode: "811 04",
     country: "SK",
     countryName: "Slovensko",
+  },
+  /** Sídlo podľa obchodného registra */
+  legal: {
+    name: "IC Garaz s. r. o.",
+    street: "Fialová 4072/7",
+    city: "Bratislava - mestská časť Petržalka",
+    postalCode: "851 07",
+    countryName: "Slovensko",
+    ico: "56748990",
+    dic: "2122420982",
+    icDph: "SK2122420982",
   },
   geo: {
     latitude: 48.1578544,
@@ -69,6 +81,11 @@ export type Business = typeof business;
 
 export function getFullAddress(): string {
   const { street, postalCode, city, countryName } = business.address;
+  return `${street}, ${postalCode} ${city}, ${countryName}`;
+}
+
+export function getLegalAddress(): string {
+  const { street, postalCode, city, countryName } = business.legal;
   return `${street}, ${postalCode} ${city}, ${countryName}`;
 }
 

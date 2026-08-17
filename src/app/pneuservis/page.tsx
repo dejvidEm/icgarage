@@ -12,7 +12,7 @@ import { SiteHeader } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/shared/Hero";
 import { AboutSection } from "@/components/sections/shared/AboutSection";
-import { ServicesSection } from "@/components/sections/shared/ServicesSection";
+import { PriceListSection } from "@/components/sections/shared/PriceListSection";
 import { WhyUsSection } from "@/components/sections/shared/WhyUsSection";
 import { ReviewsSection } from "@/components/sections/shared/ReviewsSection";
 import { LocationSection } from "@/components/sections/shared/LocationSection";
@@ -78,11 +78,12 @@ export default function PneuservisPage() {
             eyebrow="O pneuservise"
           />
 
-          <ServicesSection
-            id="sluzby"
-            services={pneuservis.services}
-            accent="pneuservis"
-            description="Prezutie, vyváženie, defekty a kontrola — podľa toho, čo auto potrebuje."
+          <PriceListSection
+            id={pneuservis.pricing.id}
+            title={pneuservis.pricing.title}
+            description={pneuservis.pricing.description}
+            note={pneuservis.pricing.note}
+            groups={pneuservis.pricing.groups}
           />
 
           <WhyUsSection

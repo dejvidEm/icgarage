@@ -1,6 +1,7 @@
 import type {
   Benefit,
   FaqItem,
+  PriceGroup,
   Review,
   ServiceItem,
   ValuePoint,
@@ -12,7 +13,7 @@ export const pneuservis = {
   accent: "pneuservis" as const,
   nav: [
     { label: "O nás", href: "/pneuservis#o-nas" },
-    { label: "Služby", href: "/pneuservis#sluzby" },
+    { label: "Cenník", href: "/pneuservis#cennik" },
     { label: "Recenzie", href: "/pneuservis#recenzie" },
     { label: "Kontakt", href: "/pneuservis#kontakt" },
   ],
@@ -29,7 +30,7 @@ export const pneuservis = {
     supporting:
       "Profesionálne prezutie, vyváženie a starostlivosť o pneumatiky na jednom mieste.",
     primaryCta: { label: "Objednať prezutie", href: "/pneuservis#kontakt" },
-    secondaryCta: { label: "Pozrieť služby", href: "/pneuservis#sluzby" },
+    secondaryCta: { label: "Pozrieť služby", href: "/pneuservis#cennik" },
     image: {
       src: "/images/pneuservis/hero-bg.jpg",
       alt: "Pneuservis — mechanik pri výmene kolesa na zdviháku",
@@ -67,51 +68,168 @@ export const pneuservis = {
       title: "Prezutie pneumatík",
       description:
         "Sezónne alebo operatívne prezutie s odbornou montážou na disky.",
-      href: "/pneuservis#kontakt",
+      href: "/pneuservis#cennik",
     },
     {
       id: "vymena-kolies",
       title: "Výmena kompletných kolies",
       description:
         "Rýchla výmena kompletných sád — ideálne, ak máte zimné aj letné kolesá.",
-      href: "/pneuservis#kontakt",
+      href: "/pneuservis#cennik",
     },
     {
       id: "vyvazenie",
       title: "Vyváženie kolies",
       description:
         "Odstránenie vibrácií a nerovnomerného opotrebenia správnym vyvážením.",
-      href: "/pneuservis#kontakt",
+      href: "/pneuservis#cennik",
     },
     {
       id: "defekt",
       title: "Oprava defektu",
       description:
         "Oprava prieduchu tam, kde to bezpečnosť a stav pneumatiky dovolí.",
-      href: "/pneuservis#kontakt",
+      href: "/pneuservis#cennik",
     },
     {
       id: "kontrola",
       title: "Kontrola pneumatík",
       description:
         "Kontrola hĺbky dezénu, veku, poškodení a celkového stavu sady.",
-      href: "/pneuservis#kontakt",
+      href: "/pneuservis#cennik",
     },
     {
       id: "tlak",
       title: "Kontrola tlaku",
-      description:
-        "Nastavenie správneho tlaku podľa vozidla a zaťaženia.",
-      href: "/pneuservis#kontakt",
+      description: "Nastavenie správneho tlaku podľa vozidla a zaťaženia.",
+      href: "/pneuservis#cennik",
     },
     {
       id: "sezonne",
       title: "Sezónne prezutie",
       description:
         "Prechod medzi letnými a zimnými pneumatikami vrátane kontroly a vyváženia.",
-      href: "/pneuservis#kontakt",
+      href: "/pneuservis#cennik",
     },
   ] satisfies ServiceItem[],
+  pricing: {
+    id: "cennik",
+    title: "Cenník služieb",
+    description:
+      "Ceny prezutia podľa rozmeru disku. Príplatky a uskladnenie sú uvedené samostatne.",
+    note: "Pri netypických rozmeroch alebo zvýšenej náročnosti môže byť cena upravená individuálne.",
+    groups: [
+      {
+        id: "prezutie-rozmery",
+        title: "Prezutie podľa rozmeru",
+        rowHeader: "Rozmer",
+        columns: {
+          primary: "Oceľový disk",
+          secondary: "Alu disk",
+        },
+        items: [
+          {
+            id: "r-13-15",
+            name: '13" – 15"',
+            car: 35,
+            suv: 40,
+          },
+          {
+            id: "r-16",
+            name: '16"',
+            car: 40,
+            suv: 45,
+          },
+          {
+            id: "r-17",
+            name: '17"',
+            car: 45,
+            suv: 50,
+          },
+          {
+            id: "r-18",
+            name: '18"',
+            car: 50,
+            suv: 55,
+          },
+          {
+            id: "r-19",
+            name: '19"',
+            car: 55,
+            suv: 60,
+          },
+          {
+            id: "r-20",
+            name: '20"',
+            car: 60,
+            suv: 65,
+          },
+          {
+            id: "r-21",
+            name: '21"',
+            car: 70,
+            suv: 75,
+          },
+          {
+            id: "r-22",
+            name: '22"',
+            car: 80,
+            suv: 85,
+          },
+          {
+            id: "r-23-24",
+            name: '23" – 24"',
+            from: 90,
+            fromSecondary: 95,
+          },
+        ],
+      },
+      {
+        id: "priplatky",
+        title: "Príplatky",
+        singleColumnLabel: "Príplatok",
+        items: [
+          {
+            id: "run-flat",
+            name: "Run-flat",
+            priceLabel: "+10 € / 4 ks",
+          },
+          {
+            id: "nizky-profil",
+            name: "Nízky profil",
+            priceLabel: "+10 € / 4 ks",
+          },
+          {
+            id: "suv-van",
+            name: "SUV / VAN",
+            priceLabel: "+10 € / 4 ks",
+          },
+          {
+            id: "velke-rozmery",
+            name: 'Veľké rozmery 21" – 24"',
+            priceLabel: "podľa náročnosti",
+          },
+        ],
+      },
+      {
+        id: "uskladnenie",
+        title: "Uskladnenie",
+        singleColumnLabel: "Cena / sezóna",
+        items: [
+          {
+            id: "sklad-pneu",
+            name: "4 pneumatiky",
+            price: 30,
+          },
+          {
+            id: "sklad-kolesa",
+            name: "4 kompletné kolesá",
+            price: 40,
+          },
+        ],
+      },
+    ] satisfies PriceGroup[],
+  },
   whyUs: {
     id: "preco-my",
     title: "Prečo si vybrať nás",

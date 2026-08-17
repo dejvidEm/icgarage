@@ -1,19 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
-import { business, getFullAddress } from "@/data/business";
+import { business, getFullAddress, getLegalAddress } from "@/data/business";
 import { Container } from "@/components/ui/Container";
 
 const detailingLinks = [
   { label: "O nás", href: "/detailing#o-nas" },
-  { label: "Služby", href: "/detailing#sluzby" },
   { label: "Cenník", href: "/detailing#cennik" },
   { label: "Galéria", href: "/detailing#galeria" },
   { label: "Kontakt", href: "/detailing#kontakt" },
 ] as const;
 
 const pneuservisLinks = [
-  { label: "Služby", href: "/pneuservis#sluzby" },
+  { label: "Cenník", href: "/pneuservis#cennik" },
   { label: "Kontakt", href: "/pneuservis#kontakt" },
+] as const;
+
+const legalLinks = [
+  { label: "Obchodné podmienky", href: "/podmienky" },
+  { label: "Cookies", href: "/cookies" },
 ] as const;
 
 export function Footer() {
@@ -111,7 +115,7 @@ export function Footer() {
                 </p>
               ) : null}
               <p className="text-sm leading-relaxed text-white/45">
-                {getFullAddress()}
+                Prevádzka: {getFullAddress()}
               </p>
             </address>
             {socialEntries.length > 0 ? (
@@ -133,11 +137,49 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-white/[0.06] pt-6 text-sm text-white/35 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 grid gap-8 border-t border-white/[0.06] pt-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-12">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+              Údaje firmy
+            </p>
+            <div className="mt-4 space-y-1.5 text-sm leading-relaxed text-white/50">
+              <p className="font-semibold text-white/75">{business.legal.name}</p>
+              <p>{getLegalAddress()}</p>
+              <p>
+                IČO {business.legal.ico}
+                <span className="mx-2 text-white/25">·</span>
+                DIČ {business.legal.dic}
+              </p>
+              <p>IČ DPH {business.legal.icDph}</p>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+              Právne informácie
+            </p>
+            <ul className="mt-4 space-y-2.5">
+              {legalLinks.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-white/65 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-10 flex flex-col gap-2 border-t border-white/[0.06] pt-6 text-sm text-white/35 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} {business.name}. Všetky práva vyhradené.
+            © {year} {business.legal.name}. Všetky práva vyhradené.
           </p>
-          <p>TODO: IČO / DIČ po doplnení údajov</p>
+          <p>
+            IČO {business.legal.ico} · DIČ {business.legal.dic}
+          </p>
         </div>
       </Container>
     </footer>

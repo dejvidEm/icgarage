@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import {
   useCallback,
   useEffect,
@@ -72,12 +73,22 @@ export function PriceListSection({
 }
 
 function PriceTable({ group }: { group: PriceGroup }) {
-  const singlePrice = group.items.every(
-    (item) =>
-      typeof item.from === "number" &&
-      item.car === undefined &&
-      item.suv === undefined,
-  );
+  const singlePrice =
+    Boolean(group.singleColumnLabel) ||
+    group.items.every(
+      (item) =>
+        (typeof item.from === "number" ||
+          typeof item.price === "number" ||
+          Boolean(item.priceLabel)) &&
+        item.car === undefined &&
+        item.suv === undefined &&
+        item.fromSecondary === undefined,
+    );
+
+  const primaryHeader = group.columns?.primary ?? "CAR";
+  const secondaryHeader = group.columns?.secondary ?? "SUV";
+  const rowHeader = group.rowHeader ?? "Služba";
+  const singleHeader = group.singleColumnLabel ?? "Cena";
 
   return (
     <div>
@@ -85,7 +96,7 @@ function PriceTable({ group }: { group: PriceGroup }) {
         {group.title}
       </h3>
 
-      <div className="rounded-[var(--radius-card)] border border-white/[0.06] bg-[var(--surface)]">
+      <div className="overflow-hidden rounded-[var(--radius-card)] border border-white/[0.06] bg-[var(--surface)]">
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-white/[0.08] bg-[var(--surface-elevated)]">
@@ -93,28 +104,28 @@ function PriceTable({ group }: { group: PriceGroup }) {
                 scope="col"
                 className="px-3 py-3 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-white/45 sm:px-7 sm:py-4 sm:text-xs sm:tracking-[0.16em]"
               >
-                Služba
+                {rowHeader}
               </th>
               {singlePrice ? (
                 <th
                   scope="col"
-                  className="w-[6.5rem] px-1.5 py-3 pr-3 text-right text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-white/45 sm:w-[11rem] sm:px-7 sm:py-4 sm:pr-7 sm:text-xs sm:tracking-[0.16em]"
+                  className="min-w-[6.5rem] px-1.5 py-3 pr-3 text-right text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-white/45 sm:w-[11rem] sm:px-7 sm:py-4 sm:pr-7 sm:text-xs sm:tracking-[0.16em]"
                 >
-                  Cena
+                  {singleHeader}
                 </th>
               ) : (
                 <>
                   <th
                     scope="col"
-                    className="w-[4.5rem] px-1.5 py-3 text-right text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-white/45 sm:w-[9rem] sm:px-7 sm:py-4 sm:text-xs sm:tracking-[0.16em]"
+                    className="w-[5.5rem] px-1.5 py-3 text-right text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-white/45 sm:w-[9.5rem] sm:px-7 sm:py-4 sm:text-xs sm:tracking-[0.14em]"
                   >
-                    CAR
+                    {primaryHeader}
                   </th>
                   <th
                     scope="col"
-                    className="w-[4.5rem] px-1.5 py-3 pr-3 text-right text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-white/45 sm:w-[9rem] sm:px-7 sm:py-4 sm:pr-7 sm:text-xs sm:tracking-[0.16em]"
+                    className="w-[5.5rem] px-1.5 py-3 pr-3 text-right text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-white/45 sm:w-[9.5rem] sm:px-7 sm:py-4 sm:pr-7 sm:text-xs sm:tracking-[0.14em]"
                   >
-                    SUV
+                    {secondaryHeader}
                   </th>
                 </>
               )}
@@ -136,6 +147,14 @@ function PriceTable({ group }: { group: PriceGroup }) {
   );
 }
 
+function PriceCell({ children }: { children: ReactNode }) {
+  return (
+    <span className="text-[0.8125rem] font-extrabold tabular-nums tracking-tight text-[var(--accent)] sm:text-lg">
+      {children}
+    </span>
+  );
+}
+
 function PriceRowView({
   item,
   striped,
@@ -146,7 +165,16 @@ function PriceRowView({
   singlePrice: boolean;
 }) {
   const hasSplit = typeof item.car === "number" && typeof item.suv === "number";
-  const fromOnly = typeof item.from === "number";
+  const hasFromSplit =
+    typeof item.from === "number" && typeof item.fromSecondary === "number";
+  const fromOnly =
+    typeof item.from === "number" && item.fromSecondary === undefined;
+  const hasFlatPrice = typeof item.price === "number";
+  const hasPriceLabel = Boolean(item.priceLabel);
+  const showInfo =
+    Boolean(item.duration) ||
+    Boolean(item.includes?.length) ||
+    Boolean(item.note);
 
   return (
     <tr
@@ -161,26 +189,37 @@ function PriceRowView({
       >
         <span className="inline-flex max-w-full items-start gap-1.5 sm:gap-2">
           <span>{item.name}</span>
-          <PriceInfoButton item={item} />
+          {showInfo ? <PriceInfoButton item={item} /> : null}
         </span>
       </th>
-      {singlePrice && fromOnly ? (
+      {singlePrice ? (
         <td className="whitespace-nowrap px-1.5 py-3 pr-3 text-right sm:px-7 sm:py-4 sm:pr-7">
-          <span className="text-[0.8125rem] font-extrabold tabular-nums tracking-tight text-[var(--accent)] sm:text-lg">
-            {formatPrice(item.from!, true)}
-          </span>
+          <PriceCell>
+            {hasPriceLabel
+              ? item.priceLabel
+              : hasFlatPrice
+                ? formatPrice(item.price!)
+                : fromOnly
+                  ? formatPrice(item.from!, true)
+                  : "—"}
+          </PriceCell>
         </td>
       ) : hasSplit ? (
         <>
           <td className="whitespace-nowrap px-1.5 py-3 text-right sm:px-7 sm:py-4">
-            <span className="text-[0.8125rem] font-extrabold tabular-nums tracking-tight text-[var(--accent)] sm:text-lg">
-              {formatPrice(item.car!)}
-            </span>
+            <PriceCell>{formatPrice(item.car!)}</PriceCell>
           </td>
           <td className="whitespace-nowrap px-1.5 py-3 pr-3 text-right sm:px-7 sm:py-4 sm:pr-7">
-            <span className="text-[0.8125rem] font-extrabold tabular-nums tracking-tight text-[var(--accent)] sm:text-lg">
-              {formatPrice(item.suv!)}
-            </span>
+            <PriceCell>{formatPrice(item.suv!)}</PriceCell>
+          </td>
+        </>
+      ) : hasFromSplit ? (
+        <>
+          <td className="whitespace-nowrap px-1.5 py-3 text-right sm:px-7 sm:py-4">
+            <PriceCell>{formatPrice(item.from!, true)}</PriceCell>
+          </td>
+          <td className="whitespace-nowrap px-1.5 py-3 pr-3 text-right sm:px-7 sm:py-4 sm:pr-7">
+            <PriceCell>{formatPrice(item.fromSecondary!, true)}</PriceCell>
           </td>
         </>
       ) : fromOnly ? (
@@ -188,9 +227,7 @@ function PriceRowView({
           colSpan={2}
           className="whitespace-nowrap px-1.5 py-3 pr-3 text-right sm:px-7 sm:py-4 sm:pr-7"
         >
-          <span className="text-[0.8125rem] font-extrabold tabular-nums tracking-tight text-[var(--accent)] sm:text-lg">
-            {formatPrice(item.from!, true)}
-          </span>
+          <PriceCell>{formatPrice(item.from!, true)}</PriceCell>
         </td>
       ) : (
         <>

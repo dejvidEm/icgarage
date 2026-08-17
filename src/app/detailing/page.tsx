@@ -12,11 +12,10 @@ import { SiteHeader } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/shared/Hero";
 import { AboutSection } from "@/components/sections/shared/AboutSection";
-import { ServicesSection } from "@/components/sections/shared/ServicesSection";
 import { WhyUsSection } from "@/components/sections/shared/WhyUsSection";
 import { ReviewsSection } from "@/components/sections/shared/ReviewsSection";
 import { GallerySection } from "@/components/sections/detailing/GallerySection";
-import { PriceListSection } from "@/components/sections/detailing/PriceListSection";
+import { PriceListSection } from "@/components/sections/shared/PriceListSection";
 import { LocationSection } from "@/components/sections/shared/LocationSection";
 import { FAQSection } from "@/components/sections/shared/FAQSection";
 import { FinalCTA } from "@/components/sections/shared/FinalCTA";
@@ -77,13 +76,6 @@ export default function DetailingPage() {
             image={detailing.about.image}
             values={detailing.about.values}
             accent="detailing"
-          />
-
-          <ServicesSection
-            id="sluzby"
-            services={detailing.services}
-            accent="detailing"
-            description="Interiér, exteriér, ochrana laku — podľa stavu vozidla a vašich priorít."
           />
 
           <PriceListSection
