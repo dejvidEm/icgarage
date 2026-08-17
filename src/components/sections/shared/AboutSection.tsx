@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { ValuePoint } from "@/data/detailing";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -28,13 +27,14 @@ export function AboutSection({
     >
       <Container>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="relative order-2 aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-[var(--surface)] sm:aspect-[5/6] lg:order-1">
-            <Image
+          <div className="relative order-2 min-h-[22rem] aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-[var(--surface)] sm:aspect-[5/6] lg:order-1 lg:min-h-[28rem]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={image.src}
               alt={image.alt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 42vw"
-              className="object-cover"
+              className="absolute inset-0 size-full object-cover object-center"
+              loading="eager"
+              decoding="async"
             />
           </div>
 

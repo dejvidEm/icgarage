@@ -31,8 +31,8 @@ export const pneuservis = {
     primaryCta: { label: "Objednať prezutie", href: "/pneuservis#kontakt" },
     secondaryCta: { label: "Pozrieť služby", href: "/pneuservis#sluzby" },
     image: {
-      src: "/images/pneuservis/hero.jpg",
-      alt: "Profesionálny pneuservis — výmena a starostlivosť o pneumatiky",
+      src: "/images/pneuservis/hero-bg.jpg",
+      alt: "Pneuservis — mechanik pri výmene kolesa na zdviháku",
     },
   },
   about: {
@@ -40,8 +40,8 @@ export const pneuservis = {
     title: "Prezutie a starostlivosť, ktoré sedí do vášho dňa.",
     text: "Pneuservis držíme jednoduchý a predvídateľný. Objednáte sa, prídete v dohodnutom čase a odchádzate s prezutými, vyváženými kolesami. Kontrolujeme stav pneumatík a upozorníme vás, ak niečo nie je v poriadku — bez nátlaku na zbytočné služby.",
     image: {
-      src: "/images/pneuservis/about.jpg",
-      alt: "Pneuservis — práca s kolesami a pneumatikami",
+      src: "/images/pneuservis/about-photo.jpg",
+      alt: "Pneuservis — montáž pneumatiky na stroji v dielni",
     },
     values: [
       {

@@ -60,7 +60,7 @@ export function SiteHeader({
           : "bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-[4.5rem] max-w-[80rem] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-[80rem] items-center justify-between gap-4 px-4 sm:h-[4.75rem] sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -81,9 +81,9 @@ export function SiteHeader({
             <Image
               src={business.logo.src}
               alt={business.logo.alt}
-              width={48}
-              height={48}
-              className="size-10 rounded-full sm:size-11"
+              width={72}
+              height={72}
+              className="size-14 rounded-full sm:size-16"
               priority
             />
           </Link>

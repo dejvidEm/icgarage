@@ -34,9 +34,9 @@ export function Footer() {
               <Image
                 src={business.logo.src}
                 alt={business.logo.alt}
-                width={48}
-                height={48}
-                className="size-11 rounded-full"
+                width={72}
+                height={72}
+                className="size-16 rounded-full sm:size-[4.5rem]"
               />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/50">

@@ -23,12 +23,14 @@ export function Hero({
   primaryCta,
   secondaryCta,
   image,
+  accent,
   eyebrow,
 }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [revealed, setRevealed] = useState(false);
+  const isPneuservis = accent === "pneuservis";
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -70,9 +72,10 @@ export function Hero({
   return (
     <section
       ref={sectionRef}
-      className="relative isolate min-h-[100svh] overflow-hidden bg-[var(--background)]"
+      className="relative min-h-[100svh] overflow-hidden bg-[var(--background)]"
     >
-      <div className="absolute inset-0 -z-10">
+      {/* Background photo — positive z so it stays above section bg */}
+      <div className="absolute inset-0 z-0">
         <div
           className="absolute inset-0 will-change-transform"
           style={{
@@ -86,14 +89,29 @@ export function Hero({
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-center"
           />
         </div>
-        <div className="absolute inset-0 bg-[linear-gradient(105deg,rgb(17_16_19_/_0.92)_0%,rgb(17_16_19_/_0.55)_42%,rgb(17_16_19_/_0.35)_100%)]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] via-transparent to-black/30" />
+        {/* Readable text without hiding the photo */}
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-0",
+            isPneuservis
+              ? "bg-[linear-gradient(105deg,rgb(17_16_19_/_0.92)_0%,rgb(17_16_19_/_0.72)_48%,rgb(17_16_19_/_0.55)_100%)]"
+              : "bg-[linear-gradient(105deg,rgb(17_16_19_/_0.88)_0%,rgb(17_16_19_/_0.62)_48%,rgb(17_16_19_/_0.42)_100%)]",
+          )}
+        />
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-0 bg-gradient-to-t from-[var(--background)]",
+            isPneuservis ? "via-black/30 to-black/45" : "via-black/20 to-black/35",
+          )}
+        />
       </div>
 
-      <Container className="flex min-h-[100svh] flex-col justify-center pb-24 pt-28 sm:pb-28 sm:pt-32">
+      <Container className="relative z-10 flex min-h-[100svh] flex-col justify-center pb-24 pt-28 sm:pb-28 sm:pt-32">
         <div
           className={cn(
             "max-w-2xl transition-[opacity,transform] duration-700 ease-out",
@@ -109,10 +127,10 @@ export function Hero({
               {eyebrow}
             </p>
           ) : null}
-          <h1 className="text-balance text-[clamp(2.5rem,6.5vw,4.75rem)] font-extrabold leading-[1.02] tracking-[-0.03em] text-white">
+          <h1 className="text-balance text-[clamp(2.5rem,6.5vw,4.75rem)] font-extrabold leading-[1.02] tracking-[-0.03em] text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.45)]">
             {headline}
           </h1>
-          <p className="mt-6 max-w-lg text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
+          <p className="mt-6 max-w-lg text-pretty text-base leading-relaxed text-white/75 sm:text-lg">
             {supporting}
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">

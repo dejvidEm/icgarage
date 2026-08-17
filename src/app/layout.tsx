@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: `${business.name} | Detailing & Pneuservis ${business.city}`,
     description: `${business.name} — profesionálny auto detailing a pneuservis v ${business.city}. Objednajte starostlivosť o auto alebo prezutie pneumatík.`,
     path: "/",
-    image: "/images/home/detailing-bg.jpg",
+    image: "/images/home/detailing-hero.jpg",
   }),
   applicationName: business.name,
   authors: [{ name: business.name }],

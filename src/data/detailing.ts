@@ -81,8 +81,8 @@ export const detailing = {
     primaryCta: { label: "Objednať detailing", href: "/detailing#kontakt" },
     secondaryCta: { label: "Pozrieť služby", href: "/detailing#sluzby" },
     image: {
-      src: "/images/detailing/hero.jpg",
-      alt: "Profesionálny auto detailing — lesklý lak a precízna starostlivosť",
+      src: "/images/detailing/hero-bg.jpg",
+      alt: "Profesionálny detailing — leštenie laku elektrickou leštičkou",
     },
   },
   about: {
