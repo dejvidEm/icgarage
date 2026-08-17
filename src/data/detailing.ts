@@ -10,10 +10,14 @@ export type ServiceItem = {
 export type PriceRow = {
   id: string;
   name: string;
-  /** Cena pre osobné auto v € */
-  car: number;
-  /** Cena pre SUV / väčšie vozidlo v € */
-  suv: number;
+  /** Cena pre osobné auto (CAR) v € — ak nie je, ide o „od“ cenu */
+  car?: number;
+  /** Cena pre SUV v € */
+  suv?: number;
+  /** Jedna cena „od … €“ (bez rozdelenia CAR/SUV) */
+  from?: number;
+  duration?: string;
+  includes?: ReadonlyArray<string>;
   note?: string;
 };
 
@@ -90,8 +94,8 @@ export const detailing = {
     title: "Starostlivosť o auto bez kompromisov.",
     text: "Venujeme sa detailingu ako remeslu. Každé vozidlo prechádza dôkladnou diagnostikou povrchu a interiéru, aby sme zvolili postup, ktorý dáva zmysel — nie zbytočné balíčky navyše. Pracujeme s profesionálnou autokozmetikou a dôrazom na výsledok, ktorý vydrží.",
     image: {
-      src: "/images/detailing/about.jpg",
-      alt: "Detailér pri práci na interiéri a exteriéri vozidla",
+      src: "/images/detailing/about-photo.jpg",
+      alt: "Detailing — leštenie laku profesionálnou leštičkou",
     },
     values: [
       {
@@ -177,122 +181,137 @@ export const detailing = {
       priceFrom: 50,
     },
   ] satisfies ServiceItem[],
-  /**
-   * TODO: Nahraďte reálnymi cenami pred launchom.
-   * Ceny sú placeholder hodnoty — upravíte ich na jednom mieste.
-   */
   pricing: {
     id: "cennik",
-    title: "Cenník",
+    title: "Cenník služieb",
     description:
-      "Orientačné ceny podľa kategórie vozidla. Finálna cena závisí od stavu auta a rozsahu prác.",
-    note: "TODO: Overte a upravte ceny podľa aktuálneho cenníka prevádzky.",
+      "CAR = osobné auto, SUV = SUV vozidlo. „Od“ znamená minimálnu cenu, ktorá sa môže zvýšiť podľa stavu alebo veľkosti vozidla.",
+    note: "Pri extrémnom znečistení (napr. motorový priestor) môže byť výsledná cena vyššia.",
     groups: [
       {
-        id: "zakladne",
-        title: "Hlavné služby",
+        id: "rucne-umyvanie",
+        title: "Ručné umývanie",
         items: [
           {
-            id: "cistenie-interieru",
-            name: "Čistenie interiéru",
-            car: 60,
-            suv: 80,
+            id: "basic-interier",
+            name: "Basic interiér",
+            car: 44.9,
+            suv: 49.9,
+            duration: "približne 60 minút",
+            includes: [
+              "detailné vysávanie interiéru",
+              "čistenie a impregnácia plastových častí",
+              "čistenie vnútorných skiel a zrkadiel",
+              "vyčistenie gumených rohoží",
+              "vyčistenie rámov dverí a kufra",
+            ],
           },
           {
-            id: "tepovanie",
-            name: "Tepovanie",
-            car: 80,
-            suv: 100,
+            id: "basic-exterier",
+            name: "Basic exteriér",
+            car: 34.9,
+            suv: 39.9,
+            duration: "približne 45 minút",
+            includes: [
+              "základné čistenie exteriéru vozidla",
+              "predoplach",
+              "aplikácia a oplach aktívnej peny",
+              "ručné umytie auta metódou dvoch vedier",
+              "aplikácia vosku s dlhou výdržou",
+            ],
           },
           {
-            id: "detailing-interieru",
-            name: "Detailing interiéru",
-            car: 120,
-            suv: 150,
+            id: "basic-komplet",
+            name: "Basic komplet",
+            car: 74.9,
+            suv: 79.9,
+            duration: "približne 60 až 90 minút",
+            includes: [
+              "kompletné umytie exteriéru",
+              "kompletné základné čistenie interiéru",
+              "služba nezahŕňa tepovanie",
+            ],
           },
           {
-            id: "rucne-umyvanie",
-            name: "Ručné umývanie exteriéru",
-            car: 40,
-            suv: 55,
+            id: "ic-garaz-refresh",
+            name: "IC Garáž Refresh",
+            from: 119.9,
+            includes: [
+              "detailné čistenie exteriéru",
+              "dekontaminácia karosérie",
+              "aplikácia tvrdého vosku",
+              "bežné čistenie interiéru",
+              "dezinfekcia ozónom",
+            ],
           },
           {
-            id: "dekontaminacia",
-            name: "Dekontaminácia laku",
-            car: 70,
-            suv: 90,
-          },
-          {
-            id: "lestenie",
-            name: "Leštenie laku",
-            car: 180,
-            suv: 230,
-          },
-          {
-            id: "keramicka-ochrana",
-            name: "Keramická ochrana",
-            car: 250,
-            suv: 320,
-          },
-          {
-            id: "ochrana-interieru",
-            name: "Ochrana interiéru",
-            car: 50,
-            suv: 65,
+            id: "priprava-na-predaj",
+            name: "Príprava vozidla na predaj",
+            car: 159.9,
+            suv: 169.9,
+            duration: "približne 5 až 8 hodín",
+            includes: [
+              "detailné čistenie exteriéru",
+              "detailné čistenie interiéru",
+              "tepovanie všetkých čalúnených častí",
+              "čistenie a konzervácia všetkých kožených a plastových častí",
+              "čistenie okien a zrkadiel",
+              "impregnácia pneumatík",
+            ],
           },
         ],
       },
       {
-        id: "doplnkove",
-        title: "Doplnkové služby",
+        id: "detailingove",
+        title: "Detailingové služby",
         items: [
+          {
+            id: "zimny-ochranny-balicek",
+            name: "Zimný ochranný balíček",
+            from: 550,
+            includes: [
+              "detailné čistenie exteriéru",
+              "dekontaminácia laku",
+              "detailné čistenie diskov",
+              "odmastenie laku",
+              "jednostupňové leštenie",
+              "aplikácia keramickej ochrany",
+              "impregnácia exteriérových plastov",
+            ],
+          },
+          {
+            id: "lestenie-laku",
+            name: "Leštenie laku",
+            from: 450,
+            includes: [
+              "detailná príprava karosérie",
+              "dekontaminácia laku",
+              "odmastenie a umytie vozidla",
+              "následné leštenie laku",
+              "aplikácia vosku",
+            ],
+          },
+          {
+            id: "front-pack-ppf",
+            name: "Front Pack PPF",
+            from: 1250,
+            includes: [
+              "ochranná fólia na kapotu",
+              "predné blatníky",
+              "predný nárazník",
+              "predné svetlá",
+              "B-stĺpiky",
+            ],
+          },
           {
             id: "cistenie-motoroveho-priestoru",
             name: "Čistenie motorového priestoru",
-            car: 35,
-            suv: 45,
-          },
-          {
-            id: "cistenie-kolies-a-podbehov",
-            name: "Čistenie kolies a podbehov",
-            car: 25,
-            suv: 35,
-          },
-          {
-            id: "ozonova-dezinfekcia",
-            name: "Ózonová dezinfekcia interiéru",
-            car: 40,
-            suv: 40,
-          },
-          {
-            id: "odstranenie-zapachu",
-            name: "Odstránenie zápachu",
-            car: 50,
-            suv: 60,
-          },
-          {
-            id: "aplikacia-vosku",
-            name: "Aplikácia vosku",
-            car: 45,
-            suv: 55,
-          },
-          {
-            id: "ochrana-skiel",
-            name: "Ochrana skiel (hydrofóbna)",
-            car: 30,
-            suv: 35,
-          },
-          {
-            id: "renovacia-svetiel",
-            name: "Renovácia svetlometov",
-            car: 60,
-            suv: 60,
-          },
-          {
-            id: "cistenie-kufra",
-            name: "Čistenie kufra",
-            car: 20,
-            suv: 30,
+            from: 40,
+            includes: [
+              "detailné čistenie motorového priestoru",
+              "impregnácia plastových častí",
+            ],
+            note: "Pri extrémnom znečistení môže byť výsledná cena vyššia.",
           },
         ],
       },
