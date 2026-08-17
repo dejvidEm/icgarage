@@ -1,26 +1,78 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #111013;
+  --foreground: #ffffff;
+  --surface: #1a191e;
+  --surface-elevated: #222128;
+  --muted: rgb(255 255 255 / 0.72);
+  --muted-soft: rgb(255 255 255 / 0.55);
+  --border: rgb(255 255 255 / 0.08);
+  --accent: #c9a227;
+  --accent-hover: #d4b03a;
+  --accent-foreground: #111013;
+  --accent-glow: rgb(201 162 39 / 0.22);
+  --accent-soft: rgb(201 162 39 / 0.35);
+  --radius-card: 1.25rem;
+  --radius-btn: 0.75rem;
+}
+
+.theme-pneuservis {
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-foreground: #ffffff;
+  --accent-glow: rgb(59 130 246 / 0.28);
+  --accent-soft: rgb(59 130 246 / 0.35);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --font-sans: var(--font-display);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-soft-bounce {
+    animation: none !important;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: #fff;
+}
+
+@keyframes soft-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.animate-soft-bounce {
+  animation: soft-bounce 2.2s ease-in-out infinite;
 }

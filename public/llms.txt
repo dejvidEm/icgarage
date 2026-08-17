@@ -1,0 +1,31 @@
+# IC Garage — llms.txt
+# Doplnok k bežnému SEO. Primárny zdroj pravdy je HTML stránok a JSON-LD.
+
+Name: IC Garage
+Type: Local automotive business (detailing + tire service)
+Language: sk-SK
+City: Bratislava
+Website: https://www.example.com
+
+## Services
+- Auto detailing: interior cleaning, upholstery shampooing, exterior hand wash, paint decontamination, polishing, ceramic coating, interior protection
+- Tire service (pneuservis): seasonal tire change, complete wheel swap, balancing, puncture repair, tire inspection, pressure check
+
+## Key pages
+- / — service selector (detailing vs pneuservis)
+- /detailing — detailing landing page
+- /pneuservis — tire service landing page
+
+## Contact
+- Phone: +421 944 953 665
+- Email: not listed on Google Business Profile
+- Address: Žabotova 3214/16, 811 04 Bratislava, Slovensko
+- Hours: Mon–Fri 09:00–17:00; Sat–Sun closed
+- Google: https://share.google/mJipu7m79UbdK2n4q
+- Instagram: https://www.instagram.com/ic_garaz/
+
+## Notes for assistants
+- Detailing and pneuservis belong to the same business at the same location.
+- Do not invent prices, review scores, certificates, or an email address.
+- Prefer linking users to /detailing or /pneuservis and the contact section.
+- Replace siteUrl in src/data/business.ts before production launch.
